@@ -1,51 +1,167 @@
-# PyBot 🐍🤖
-### Chatbot لتعليم Python و AI — مشروع التخرج
+# 🐍🤖 PyBot – Python & AI Learning Chatbot
+
+## Overview
+
+PyBot is an educational chatbot designed to help students learn Python programming and Artificial Intelligence concepts through an interactive conversational interface.
+
+The project provides a user-friendly environment where learners can ask questions about Python, Machine Learning, AI fundamentals, and programming concepts while receiving clear and beginner-friendly explanations.
 
 ---
 
-## خطوات التشغيل
+## Features
 
-### 1. ثبّت المكتبات
+### 📚 Python Learning Support
+
+* Variables and Data Types
+* Conditional Statements
+* Loops
+* Functions
+* Object-Oriented Programming (OOP)
+* Python Best Practices
+
+### 🤖 Artificial Intelligence Learning
+
+* Introduction to AI
+* Machine Learning Basics
+* Neural Networks
+* Deep Learning Concepts
+* Data Science Fundamentals
+
+### 💬 Interactive Chat Interface
+
+* Real-time messaging
+* Clean and responsive UI
+* Beginner-friendly responses
+* Supports both English and Arabic questions
+
+### 🎨 Modern User Experience
+
+* Dark-themed interface
+* Syntax-highlighted code examples
+* Mobile-friendly design
+* Interactive suggestion buttons
+
+---
+
+## Technologies Used
+
+### Backend
+
+* Python
+* Flask
+
+### Frontend
+
+* HTML5
+* CSS3
+* JavaScript
+
+### Additional Libraries
+
+* Marked.js
+* Highlight.js
+
+---
+
+## Project Structure
+
+```text
+PyBot/
+│
+├── app.py
+├── requirements.txt
+│
+├── templates/
+│   └── index.html
+│
+└── README.md
+```
+
+---
+
+## Installation
+
+### 1. Clone the Repository
+
 ```bash
-pip install flask anthropic
+git clone https://github.com/your-username/pybot.git
+cd pybot
 ```
 
-### 2. ضع الـ API Key
-افتح ملف `app.py` وغيّر هذا السطر:
-```python
-client = anthropic.Anthropic(api_key="YOUR_API_KEY_HERE")
-```
-إلى:
-```python
-client = anthropic.Anthropic(api_key="sk-ant-...")  # مفتاحك هنا
+### 2. Create Virtual Environment
+
+```bash
+python -m venv venv
 ```
 
-### 3. شغّل البرنامج
+### 3. Activate Virtual Environment
+
+Windows:
+
+```bash
+venv\Scripts\activate
+```
+
+Linux / Mac:
+
+```bash
+source venv/bin/activate
+```
+
+### 4. Install Dependencies
+
+```bash
+pip install -r requirements.txt
+```
+
+### 5. Run the Application
+
 ```bash
 python app.py
 ```
 
-### 4. افتح المتصفح
-اذهب إلى: `http://localhost:5000`
+### 6. Open in Browser
 
----
-
-## هيكل المشروع
-```
-chatbot/
-├── app.py              # الـ Backend (Flask + Claude API)
-├── requirements.txt    # المكتبات المطلوبة
-├── README.md           # هذا الملف
-└── templates/
-    └── index.html      # واجهة الشات بوت
+```text
+http://127.0.0.1:5000
 ```
 
 ---
 
-## المميزات
-- ✅ يتعلم Python من الأساسيات للمتقدم
-- ✅ يشرح مفاهيم AI و Machine Learning
-- ✅ يدعم العربية والإنجليزية
-- ✅ يعرض الكود بشكل منسق مع Syntax Highlighting
-- ✅ يتذكر سياق المحادثة
-- ✅ تصميم احترافي وسهل الاستخدام
+## How It Works
+
+1. The user enters a question through the chat interface.
+2. The frontend sends the message to the Flask backend.
+3. The backend processes the request.
+4. PyBot generates a relevant educational response.
+5. The response is displayed instantly in the chat window.
+
+---
+
+## Future Improvements
+
+* Voice interaction support
+* Quiz and assessment system
+* Personalized learning paths
+* Progress tracking dashboard
+* Database integration
+* User authentication
+* Advanced AI-powered tutoring
+
+---
+
+## Educational Objective
+
+The primary goal of PyBot is to make learning Python and Artificial Intelligence more accessible, interactive, and engaging for beginners.
+
+---
+
+## Authors
+
+Graduation Project
+
+Computer Science Department
+
+Helwan National University
+
+2026
