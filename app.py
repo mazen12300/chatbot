@@ -1,71 +1,73 @@
 from flask import Flask, render_template, request, jsonify
+from groq import Groq
 
 app = Flask(__name__)
 
-def get_bot_reply(user_message):
-    msg = user_message.lower()
+client = Groq(api_key="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")
 
-    if "hello" in msg or "hi" in msg or "ازيك" in msg or "السلام" in msg:
-        return "Hi! أنا PyBot 🤖 أقدر أساعدك تتعلم Python و AI خطوة بخطوة."
+SYSTEM_PROMPT = """
+You are PyBot, an expert AI tutor specialized in teaching Python Programming,
+Artificial Intelligence, Machine Learning, Deep Learning, Data Science,
+and Software Development.
 
-    elif "python" in msg or "بايثون" in msg:
-        return """Python is a simple programming language used in AI, websites, apps, and data analysis.
+Your goals:
+- Help students learn step by step.
+- Explain concepts in a simple and beginner-friendly way.
+- Use real-world examples whenever possible.
+- Always encourage learning and curiosity.
+- Adapt your explanation level to the student's knowledge.
 
-Example:
-```python
-print("Hello, Python!")
-```"""
+Response Rules:
 
-    elif "variable" in msg or "متغير" in msg:
-        return """A variable is used to store data.
+1. Always respond in the same language used by the student.
 
-Example:
-```python
-name = "Ahmed"
-age = 20
-print(name)
-```"""
+2. For educational questions, use this format:
 
-    elif "loop" in msg or "for" in msg or "لوب" in msg:
-        return """A loop repeats code many times.
+📚 Explanation:
+Provide a clear and simple explanation.
 
-Example:
-```python
-for i in range(5):
-    print(i)
-```"""
+💻 Example:
+Provide a Python example whenever relevant.
 
-    elif "function" in msg or "دالة" in msg:
-        return """A function is a block of code that runs when you call it.
+📝 Practice Question:
+Give the student a short exercise to practice.
 
-Example:
-```python
-def say_hello():
-    print("Hello!")
+✅ Tip:
+Provide a useful learning tip.
 
-say_hello()
-```"""
+3. For AI and Machine Learning topics:
+- Explain concepts simply.
+- Avoid unnecessary technical complexity.
+- Use real-world analogies.
 
-    elif "ai" in msg or "artificial intelligence" in msg or "ذكاء" in msg:
-        return "AI means making computers learn and make decisions like humans. Example: chatbots, face recognition, and self-driving cars."
+4. For Python topics:
+- Include clean Python code examples.
+- Explain the code briefly.
 
-    elif "machine learning" in msg or "ml" in msg:
-        return "Machine Learning is a part of AI where computers learn from data instead of being programmed step by step."
-
-    elif "neural network" in msg or "شبكة عصبية" in msg:
-        return "A neural network is an AI model inspired by the human brain. It learns patterns from data."
-
-    else:
-        return """I can help you learn Python and AI 🐍🤖
-
-Ask me about:
+5. If the student asks something unrelated to:
 - Python
-- variables
-- loops
-- functions
-- AI
-- machine learning
-- neural networks"""
+- Artificial Intelligence
+- Machine Learning
+- Deep Learning
+- Data Science
+- Programming
+- Software Development
+- Tech Careers
+
+Politely respond:
+
+"I'm PyBot 🤖 and I'm designed to help with Python, AI, Machine Learning,
+and programming topics. Please ask me something related to these subjects."
+
+6. Never generate harmful, illegal, or unsafe content.
+
+7. Keep answers organized and visually appealing.
+
+8. Celebrate student progress and motivate them to continue learning.
+
+Remember:
+You are an educational mentor, not just a chatbot.
+"""
 
 @app.route('/')
 def index():
@@ -76,13 +78,34 @@ def chat():
     data = request.json
     messages = data.get('messages', [])
 
-    user_message = messages[-1]["content"]
-    reply = get_bot_reply(user_message)
+    try:
+        groq_messages = [{"role": "system", "content": SYSTEM_PROMPT}]
 
-    return jsonify({
-        'reply': reply,
-        'status': 'success'
-    })
+        for msg in messages:
+            groq_messages.append({
+                "role": msg["role"],
+                "content": msg["content"]
+            })
+
+        response = client.chat.completions.create(
+            model="llama-3.1-8b-instant",
+            messages=groq_messages,
+            temperature=0.7,
+            max_tokens=800
+        )
+
+        reply = response.choices[0].message.content
+
+        return jsonify({
+            "reply": reply,
+            "status": "success"
+        })
+
+    except Exception as e:
+        return jsonify({
+            "reply": f"Error: {str(e)}",
+            "status": "error"
+        }), 500
 
 if __name__ == '__main__':
     app.run(debug=True)
